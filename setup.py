@@ -3,14 +3,14 @@ import setuptools
 
 ########################################################################################################################
 
-plugin_identifier = "navbartemp"
+plugin_identifier = "navïpbartemp"
 plugin_package = "octoprint_%s" % plugin_identifier
-plugin_name = "OctoPrint-NavbarTemp"
+plugin_name = "OctoPrint-NavIpbarTemp"
 plugin_version = "0.8"
-plugin_description = "Displays temperatures on navbar"
-plugin_author = "Jarek Szczepanski"
-plugin_author_email = "imrahil@imrahil.com"
-plugin_url = "https://github.com/imrahil/OctoPrint-NavbarTemp"
+plugin_description = "Displays temperatures and Network Address on navbar"
+plugin_author = "Mariano Ronchi"
+plugin_author_email = "mronchi@gmail.com"
+plugin_url = "https://github.com/marianoronchi/OctoPrint-NavbarTempAndIP"
 plugin_license = "AGPLv3"
 plugin_additional_data = []
 
