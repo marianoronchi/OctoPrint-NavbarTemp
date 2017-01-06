@@ -10,7 +10,7 @@ from octoprint.util import RepeatedTimer
 import sys
 import re
 
-class NavBarPlugin(octoprint.plugin.StartupPlugin,
+class NavIpBarPlugin(octoprint.plugin.StartupPlugin,
                    octoprint.plugin.TemplatePlugin,
                    octoprint.plugin.AssetPlugin,
                    octoprint.plugin.SettingsPlugin):
@@ -63,6 +63,12 @@ class NavBarPlugin(octoprint.plugin.StartupPlugin,
         if sys.platform == "linux2":
             p = run("/opt/vc/bin/vcgencmd measure_temp", stdout=Capture())
             p = p.stdout.text
+            aeth0 = run("ip addr show eth0 | awk '$1 == "inet" {gsub(/\/.*$/, "", $2); print $2}'", stdout=Capture())
+            aeth0 = "eth0:  " + aeth0.stdout.text
+            ausb0 = run("ip addr show usb0 | awk '$1 == "inet" {gsub(/\/.*$/, "", $2); print $2}'", stdout=Capture())
+            ausb0 = "usb0: " + ausb0.stdout.text
+            awlan0 = run("ip addr show wlan0 | awk '$1 == "inet" {gsub(/\/.*$/, "", $2); print $2}'", stdout=Capture())
+            awlan0 = "wlan0: "awlan0.stdout.text
 
         elif self.debugMode:
             import random
@@ -76,7 +82,7 @@ class NavBarPlugin(octoprint.plugin.StartupPlugin,
         if not match:
             self.isRaspi = False
         else:
-            temp = match.group(1)
+            temp = match.group(1) + "-" + awlan0 + "-" + aeth0 + "-" + ausb0
             self._logger.debug("match: %s" % temp)
             self._plugin_manager.send_plugin_message(self._identifier, dict(israspi=self.isRaspi, raspitemp=temp))
 
@@ -127,16 +133,16 @@ class NavBarPlugin(octoprint.plugin.StartupPlugin,
 
                 # version check: github repository
                 type="github_release",
-                user="imrahil",
-                repo="OctoPrint-NavbarTemp",
+                user="marianoronchi",
+                repo="OctoPrint-NavbarTempAndIP",
                 current=self._plugin_version,
 
                 # update method: pip w/ dependency links
-                pip="https://github.com/imrahil/OctoPrint-NavbarTemp/archive/{target_version}.zip"
+                pip="https://github.com/marianoronchi/OctoPrint-NavbarTempAndIP/archive/{target_version}.zip"
             )
         )
 
-__plugin_name__ = "Navbar Temperature Plugin"
+__plugin_name__ = "NavIPbar Temperature Plugin"
 
 def __plugin_load__():
 	global __plugin_implementation__
